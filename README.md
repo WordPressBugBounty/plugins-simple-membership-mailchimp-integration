@@ -1,0 +1,1 @@
+# plugins-simple-membership-mailchimp-integration

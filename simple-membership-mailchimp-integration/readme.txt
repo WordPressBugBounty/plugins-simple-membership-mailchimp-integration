@@ -3,7 +3,7 @@ Contributors: smp7, wp.insider
 Donate link: https://simple-membership-plugin.com/
 Tags: mailchimp, autoresponder, email, signup, optin, member, members, membership, access, subscribe
 Requires at least: 5.5
-Tested up to: 6.6
+Tested up to: 6.7
 Stable tag: 1.9.5
 License: GPLv2 or later
 

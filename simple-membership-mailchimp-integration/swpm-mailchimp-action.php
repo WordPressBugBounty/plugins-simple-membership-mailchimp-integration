@@ -136,17 +136,27 @@ function swpm_do_mailchimp_signup_form_builder( $data ) {
 
 function swpm_do_mailchimp_signup_membership_changed( $data ) {
     if ( ! isset( $data ) && ! is_array( $data ) ) {
-	return false;
+	    return false;
     }
     //let's check if membership level has changed
     if ( $data[ 'from_level' ] !== $data[ 'to_level' ] ) {
-	//it has.
-	$member_info				 = $data[ 'member_info' ];
-	$member_info[ 'prev_membership_level' ]	 = $data[ 'from_level' ];
-	$member_info[ 'membership_level' ]	 = $data[ 'to_level' ];
-	SwpmLog::log_simple_debug( "[MailChimp] Mailchimp integration addon. Membership upgrade hook.", true );
-	swpm_do_mailchimp_signup( $member_info );
-	return true;
+        //it has.
+        $member_id = isset($data[ 'member_id' ]) ? $data[ 'member_id' ] : '';
+        if (empty($member_id)) {
+            SwpmLog::log_simple_debug( "[MailChimp] Member ID value is empty so it cannot proceed.", false );
+            return;
+        }
+        $swpm_member = SwpmMemberUtils::get_user_by_id($member_id);
+        $member_info = array( 
+            'first_name' => $swpm_member->first_name, 
+            'last_name' => $swpm_member->last_name, 
+            'email' => $swpm_member->email, 
+            'prev_membership_level' => $data[ 'from_level' ], 
+            'membership_level' => $data[ 'to_level' ] 
+        );
+        SwpmLog::log_simple_debug( "[MailChimp] Mailchimp integration addon. Membership upgrade hook.", true );
+        swpm_do_mailchimp_signup( $member_info );
+        return true;
     }
     return false;
 }
@@ -315,7 +325,7 @@ function swpm_do_mailchimp_signup( $args ) {
     if ( isset( $member_info[ 'prev_membership_level' ] ) && $member_info[ 'prev_membership_level' ] !== false ) {
 	if ( $member_info[ 'prev_membership_level' ] !== $member_info[ 'membership_level' ] ) {
 	    //it has. Now let's check if interests are matching those set for current level
-	    if ( $retval[ 'interests' ] != $interests ) {
+	    if (isset( $interests ) && $retval[ 'interests' ] != $interests ) {
 		//no match. Let's swtich off interests that aren't in this group
 		foreach ( $retval[ 'interests' ] as $key => $value ) {
 		    $retval[ 'interests' ][ $key ] = false;

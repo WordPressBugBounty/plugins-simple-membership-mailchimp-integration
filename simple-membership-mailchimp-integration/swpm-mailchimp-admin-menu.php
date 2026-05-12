@@ -10,18 +10,20 @@ function swpm_mc_admin_interface() {
     echo '<h1>MailChimp Integration</h1>';
 
     if ( isset( $_POST[ 'swpm_mc_save_settings' ] ) ) {
+        check_admin_referer( 'swpm_mc_save_settings' );
+
         $api_key = isset ( $_POST[ 'mc_api_key' ] ) ? sanitize_text_field( $_POST[ 'mc_api_key' ] ) : '';
-	$options = array(
-	    'mc_api_key' => trim( $api_key ),
+	    $options = array(
+            'mc_api_key' => trim( $api_key ),
             'mc_enable_double_optin'	 => isset( $_POST[ 'mc_enable_double_optin' ] ) ? 1 : 0,
-	    'mc_remove_when_cancelled'	 => isset( $_POST[ 'mc_remove_when_cancelled' ] ) ? 1 : 0,
-	);
-	update_option( 'swpm_mailchimp_settings', $options ); //store the results in WP options table
-	echo '<div id="message" class="updated fade">';
-	echo '<p>MailChimp Settings Saved!</p>';
-	echo '</div>';
+            'mc_remove_when_cancelled'	 => isset( $_POST[ 'mc_remove_when_cancelled' ] ) ? 1 : 0,
+        );
+        update_option( 'swpm_mailchimp_settings', $options ); //store the results in WP options table
+        echo '<div id="message" class="updated fade">';
+        echo '<p>MailChimp Settings Saved!</p>';
+        echo '</div>';
     }
-    $swpm_mc_settings = get_option( 'swpm_mailchimp_settings' );
+    $swpm_mc_settings = get_option( 'swpm_mailchimp_settings', array());
 	$mc_api_key = isset($swpm_mc_settings[ 'mc_api_key' ]) ? $swpm_mc_settings[ 'mc_api_key' ] : '';
 
     echo '<div id="poststuff"><div id="post-body">';
@@ -62,7 +64,7 @@ function swpm_mc_admin_interface() {
     	    </table>
     	</div></div>
         <input type="submit" name="swpm_mc_save_settings" value="Save" class="button-primary" />
-
+        <?php wp_nonce_field( 'swpm_mc_save_settings' ); ?>
     </form>
 
 

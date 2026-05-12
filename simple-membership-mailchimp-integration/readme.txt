@@ -3,8 +3,8 @@ Contributors: smp7, wp.insider
 Donate link: https://simple-membership-plugin.com/
 Tags: mailchimp, autoresponder, email, signup, optin, member, members, membership, access, subscribe
 Requires at least: 5.5
-Tested up to: 6.8
-Stable tag: 1.9.7
+Tested up to: 7.0
+Stable tag: 1.9.8
 License: GPLv2 or later
 
 An addon for the simple membership plugin to signup members to your MailChimp list
@@ -34,6 +34,9 @@ None
 None
 
 == Changelog ==
+
+= 1.9.8 =
+* Nonce verification added for admin settings form. Thanks to WPScan for pointing out this issue.
 
 = 1.9.7 =
 * Fixed an issue where the member ID value was not being used to retrieve the member data for the Membership Level Change action.

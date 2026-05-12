@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Simple Membership MailChimp Integration
-Version: 1.9.7
+Version: 1.9.8
 Plugin URI: https://simple-membership-plugin.com/
 Author: smp7, wp.insider
 Author URI: https://simple-membership-plugin.com/
